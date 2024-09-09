@@ -22,11 +22,10 @@ def get_data(year, cursor):
       l.append(ids)
     cursor = d["meta"]["next_cursor"]
     count += 1
-    if count == 100:
+    if count == 10000:
       file_name = f"{year}_{str(datetime.now())}_{cursor}.json"
       with open("./"+file_name, "wt") as f:
         json.dump(l, f, separators=(',', ':'))
-      break
 
 start_year = 2010
 end_year = 2020
