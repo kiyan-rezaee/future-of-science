@@ -26,6 +26,7 @@ def get_data(year, cursor):
       file_name = f"{year}_{str(datetime.now())}_{cursor}.json"
       with open("./"+file_name, "wt") as f:
         json.dump(l, f, separators=(',', ':'))
+      l = []
   file_name = f"{year}_final_{cursor}.json"
   with open("./"+file_name, "wt") as f:
     json.dump(l, f, separators=(',', ':'))
