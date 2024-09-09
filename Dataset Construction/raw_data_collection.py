@@ -8,7 +8,7 @@ import json
 def get_data(year, cursor):
   count = 0
   while cursor:
-    url = f"https://api.openalex.org/works?page=1&filter=type:types/article,publication_year:{year},language:languages/en&per_page=200&select=concepts&cursor={cursor}"
+    url = f"https://api.openalex.org/works?filter=type:types/article,publication_year:{year},language:languages/en&per_page=200&select=concepts&cursor={cursor}"
     res = rq.get(url)
     sleep(1)
     if res.status_code != 200:
