@@ -7,6 +7,7 @@ import json
 
 def get_data(year, cursor):
   count = 0
+  l = []
   while cursor:
     url = f"https://api.openalex.org/works?filter=type:types/article,publication_year:{year},language:languages/en&per_page=200&select=concepts&cursor={cursor}"
     res = rq.get(url)
@@ -14,7 +15,6 @@ def get_data(year, cursor):
     if res.status_code != 200:
       raise Exception(res.status_code)
     d = res.json()
-    l = []
     for result in d["results"]:
       ids = []
       for concept in result["concepts"]:
@@ -26,6 +26,9 @@ def get_data(year, cursor):
       file_name = f"{year}_{str(datetime.now())}_{cursor}.json"
       with open("./"+file_name, "wt") as f:
         json.dump(l, f, separators=(',', ':'))
+  file_name = f"{year}_final_{cursor}.json"
+  with open("./"+file_name, "wt") as f:
+    json.dump(l, f, separators=(',', ':'))
 
 start_year = 2010
 end_year = 2020
