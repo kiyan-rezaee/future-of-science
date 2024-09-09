@@ -27,7 +27,7 @@ def get_data(year, cursor):
       with open("./"+file_name, "wt") as f:
         json.dump(l, f, separators=(',', ':'))
       l = []
-  file_name = f"{year}_final_{cursor}.json"
+  file_name = f"{year}_final.json"
   with open("./"+file_name, "wt") as f:
     json.dump(l, f, separators=(',', ':'))
 
