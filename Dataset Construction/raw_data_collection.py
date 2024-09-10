@@ -10,7 +10,13 @@ def get_data(year, cursor):
   l = []
   while cursor:
     url = f"https://api.openalex.org/works?filter=type:types/article,publication_year:{year},language:languages/en&per_page=200&select=concepts&cursor={cursor}"
-    res = rq.get(url)
+    while True:
+        try:
+            res = rq.get(url)
+            break
+        except Exception as e:
+            sleep(1)
+            print(e, "trying again\n\n", sep="\n")
     sleep(1)
     if res.status_code != 200:
       raise Exception(res.status_code)
@@ -40,7 +46,7 @@ threads = []
 for i, year in enumerate(years):
   new_t = Thread(target=get_data, args=[year, "*"])
   threads.append(new_t)
-  print("starting thread")
+  print(f"starting {year} thread")
   new_t.start()
   if (i+1) % 10 == 0:
     for t in threads:
