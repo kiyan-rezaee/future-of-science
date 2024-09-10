@@ -12,7 +12,7 @@ def get_data(year, cursor):
     url = f"https://api.openalex.org/works?filter=type:types/article,publication_year:{year},language:languages/en&per_page=200&select=concepts&cursor={cursor}"
     while True:
         try:
-            res = rq.get(url, timeout=20)
+            res = rq.get(url, timeout=60)
             break
         except Exception as e:
             sleep(2)
