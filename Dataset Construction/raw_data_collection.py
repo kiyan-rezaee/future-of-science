@@ -15,8 +15,8 @@ def get_data(year, cursor):
             res = rq.get(url)
             break
         except Exception as e:
-            sleep(1)
-            print(e, "trying again\n\n", sep="\n")
+            sleep(2)
+            print(e, "\ntrying again\n", sep="\n")
     sleep(1)
     if res.status_code != 200:
       raise Exception(res.status_code)
@@ -28,7 +28,9 @@ def get_data(year, cursor):
       l.append(ids)
     cursor = d["meta"]["next_cursor"]
     count += 1
-    if count == 10000:
+    if count % 100 == 0:
+        print(f"-- {year}, count={count}")
+    if count % 2000 == 0:
       file_name = f"{year}_{str(datetime.now())}_{cursor}.json"
       with open("./"+file_name, "wt") as f:
         json.dump(l, f, separators=(',', ':'))
