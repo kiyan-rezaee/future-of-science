@@ -13,13 +13,14 @@ def get_data(year, cursor):
     while True:
         try:
             res = rq.get(url, timeout=60)
-            break
+            if res.status_code == 200:
+                break
+            sleep(2)
+            print(f"status code: {res.status_code}", "\ntrying again\n", sep="\n")
         except Exception as e:
             sleep(2)
             print(e, "\ntrying again\n", sep="\n")
     sleep(1)
-    if res.status_code != 200:
-      raise Exception(res.status_code)
     d = res.json()
     for result in d["results"]:
       ids = []
@@ -42,11 +43,15 @@ def get_data(year, cursor):
 start_year = 2010
 end_year = 2020
 
-years = list(range(start_year, end_year+1))
 threads = []
+years = list(range(start_year, end_year+1))
+cursors = {year: "*" for year in years}
+
+# override any cursor you want
+# cursors[2010] = abcd...
 
 for i, year in enumerate(years):
-  new_t = Thread(target=get_data, args=[year, "*"])
+  new_t = Thread(target=get_data, args=[year, cursors[year]])
   threads.append(new_t)
   print(f"starting {year} thread")
   new_t.start()
