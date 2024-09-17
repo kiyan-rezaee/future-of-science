@@ -28,7 +28,7 @@ with psycopg.connect("host=localhost dbname=TrendDB user=Trend password=2424") a
                     cur.execute(f"INSERT INTO concept_pairs VALUES ('{concept1}', '{concept2}', {year}) ON CONFLICT DO NOTHING")
                     conn.commit()
                 if (j+1) % 10 == 0:
-                    print(f"{j+1}/{len_data}")
-            print(f"file {i+1}/{len_files} finished:", json_file)
+                    print(f"\r{j+1}/{len_data}", end="")
+            print(f"\nfile {i+1}/{len_files} finished:", json_file, end="\n\n")
             print()
 
