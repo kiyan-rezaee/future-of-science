@@ -33,8 +33,8 @@ DOMAINS = ["Political_Science", "Philosophy", "Economics", "Business", "Psycholo
            "History", "Materials_Science", "Physics", "Environmental_Science"]
 
 
-node_embeddings_dir = os.path.join('node_embeddings', "_".join(DOMAINS))
-edges_dir = os.path.join("./edges", "_".join(DOMAINS))
+node_embeddings_dir = os.path.join("..", "FOS_Benchmark", "node_embeddings", "_".join(DOMAINS))
+edges_dir = os.path.join("..", "FOS_Benchmark", "edges", "_".join(DOMAINS))
 
 nodes = pd.read_pickle(os.path.join(node_embeddings_dir, "full_features.pkl"))
 edges = pd.read_csv(os.path.join(edges_dir, "all_edges.csv"))
