@@ -1,0 +1,9 @@
+requests
+tqdm
+numpy
+pandas
+networkx
+scikit-learn
+torch
+sentence-transformers
+psycopg

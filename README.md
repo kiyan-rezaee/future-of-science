@@ -1,29 +1,35 @@
-# Trend Prediction in the Scientific Community
+# The FOS (Future Of Science) Benchmark
 
-## Project Objective
-Identifying interdisciplinary connections can be pivotal for groundbreaking research. Nobel Prize-winning articles often tackle big, complex questions by combining insights from multiple fields. This project aims to identify potential fields of study that haven’t been extensively explored together. By predicting links between fields of study, researchers can explore new interdisciplinary opportunities that may lead to impactful discoveries.
+This repository is the official implementation of the paper "**FOS: A Large-Scale Temporal Graph Benchmark for Scientific Interdisciplinary Link Prediction**" (arXiv: https://arxiv.org/abs/2508.07486).
 
-In this project, we use machine learning techniques on time-aware graph data to predict unpaired links between nodes, where each node represents a field of study. The results can guide researchers toward promising areas for high-impact and innovative research.
+It provides the code and artifacts needed to reproduce the FOS benchmark, run evaluations, and reproduce baseline experiments.
 
-## Project Phases
+## Repository Contents
+- FOS benchmark construction (dataset creation and preprocessing)
+- Training and Evaluation pipeline for the temporal link prediction task
+- Baseline model implementations and experiment scripts
 
-1. **Planning**: 
-   - Define objectives and scope.
-   - Gather and preprocess time-aware graph data representing fields of study.
+## Quick Start
+1. Clone this repository.
+2. Install dependencies (`pip install -r requirements.txt`).
+3. Use the scripts in [FOS_Benchmark]((https://github.com/kiyan-rezaee/future-of-science/blob/main/FOS_Benchmark)) to generate the dataset and benchmark splits.
+4. Use the [Experiments](https://github.com/kiyan-rezaee/future-of-science/blob/main/Experiments) directory to train and evaluate and reproduce baseline results.
 
-2. **Development**: 
-   - Implement graph-based machine learning models for link prediction (Baseline models).
-   - Develop data preprocessing and feature engineering pipelines.
-   
-3. **Testing**: 
-   - Validate model predictions on historical data.
-   - Perform evaluation and fine-tune the models for accuracy.
+## Reproduce the Benchmark
+To reproduce the dataset and benchmark used in the paper, see: [FOS_Benchmark](https://github.com/kiyan-rezaee/future-of-science/blob/main/FOS_Benchmark)
 
-4. **Future Improvements**: 
-   - Explore advanced techniques like large language models.
-   - Develop a user interface for researchers to explore predictions interactively.
+## Train and Evaluate Models
+To run evaluations on the provided baselines or on your own model, see: [Experiments](https://github.com/kiyan-rezaee/future-of-science/blob/main/Experiments)
 
-## Features
-- **Link Prediction in Graphs**: Predict unpaired links between nodes representing different fields of study.
-- **Time-Aware Analysis**: Incorporates temporal data to capture evolving trends in scientific research.
-- **Interdisciplinary Insight**: Identifies unexplored field pairings for potential high-impact research opportunities.
+## TODO
+- Test the consistency of codes after the refactor
+- Enable a global configuration file to centralize settings
+- Provide CLI tools (argparse) for common workflows
+- Add progress bars using tqdm for long-running operations
+
+## Acknowledgements
+We would like to express our gratitude to the creators of the following repository:
+
+https://github.com/yule-BUAA/DyGLib/
+
+Their efforts and contributions to open-source development have been invaluable to this project.
