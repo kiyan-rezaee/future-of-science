@@ -1,6 +1,6 @@
 # The FOS (Future Of Science) Benchmark
 
-This repository is the official implementation of the paper "**FOS: A Large-Scale Temporal Graph Benchmark for Scientific Interdisciplinary Link Prediction**" (arXiv: https://arxiv.org/abs/).
+This repository is the official implementation of the paper "**FOS: A Large-Scale Temporal Graph Benchmark for Scientific Interdisciplinary Link Prediction**" (arXiv: https://www.arxiv.org/abs/2511.18631).
 
 It provides the code and artifacts needed to reproduce the FOS benchmark, run evaluations, and reproduce baseline experiments.
 
