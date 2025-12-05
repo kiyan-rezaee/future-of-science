@@ -126,7 +126,7 @@ chunk_size = math.ceil(len(openalex_ids) / 10)
 
 chunks = [openalex_ids[i:i + chunk_size] for i in range(0, len(openalex_ids), chunk_size)]
 
-out_dir = os.path.join('node_data', "_".join(config["DOMAINS"]))
+out_dir = os.path.join("_".join(config["DOMAINS"]), "node_data")
 os.makedirs(out_dir, exist_ok=True)
 
 for idx, chunk in enumerate(chunks, start=1):

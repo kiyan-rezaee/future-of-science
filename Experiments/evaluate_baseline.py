@@ -29,8 +29,8 @@ config_path = os.path.join("..", "config.yaml")
 with open(config_path, "rt") as config_file:
     config = yaml.safe_load(config_file)
 
-node_embeddings_dir = os.path.join("..", "FOS_Benchmark", "node_embeddings", "_".join(config["DOMAINS"]))
-edges_dir = os.path.join("..", "FOS_Benchmark", "edges", "_".join(config["DOMAINS"]))
+node_embeddings_dir = os.path.join("..", "FOS_Benchmark", "_".join(config["DOMAINS"]), "node_embeddings")
+edges_dir = os.path.join("..", "FOS_Benchmark", "_".join(config["DOMAINS"]), "edges")
 
 nodes = pd.read_pickle(os.path.join(node_embeddings_dir, "full_features.pkl"))
 edges = pd.read_csv(os.path.join(edges_dir, "all_edges.csv"), header=None, names=["src", "dst", "ts"])

@@ -8,7 +8,7 @@ config_path = os.path.join("..", "config.yaml")
 with open(config_path, "rt") as config_file:
 	config = yaml.safe_load(config_file)
 
-out_dir = os.path.join("./edges", "_".join(config["DOMAINS"]))
+out_dir = os.path.join("_".join(config["DOMAINS"]), "edges")
 os.makedirs(out_dir, exist_ok=True)
 
 try:

@@ -75,9 +75,9 @@ def encode_concept(concept):
 
 features = ["none", "desc", "name", "ancestor", "related", "level"]
 dfs = {feature: pd.DataFrame(columns=['node_id', 'embeddings']) for feature in features}
-out_dir = os.path.join('node_embeddings', "_".join(config["DOMAINS"]))
+out_dir = os.path.join("_".join(config["DOMAINS"]), "node_embeddings")
 os.makedirs(out_dir, exist_ok=True)
-data_dir = os.path.join('node_data', "_".join(config["DOMAINS"]))
+data_dir = os.path.join("_".join(config["DOMAINS"]), "node_data")
 if not os.path.isdir(data_dir):
     print(f"node data directory not found: {data_dir}")
 else:
