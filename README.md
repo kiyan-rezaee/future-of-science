@@ -22,7 +22,7 @@ To reproduce the dataset and benchmark used in the paper, see: [FOS_Benchmark](h
 To run evaluations on the provided baselines or on your own model, see: [Experiments](https://github.com/kiyan-rezaee/future-of-science/blob/main/Experiments)
 
 ## TODO
-- Add ablation, discussion, and appendix artifacts
+- Add ablation and discussion artifacts
 - Test the consistency of codes after the refactor
 - Enable a global configuration file to centralize settings
 - Provide CLI tools (argparse) for common workflows
