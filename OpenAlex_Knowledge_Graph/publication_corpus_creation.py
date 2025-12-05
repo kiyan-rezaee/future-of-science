@@ -1,22 +1,17 @@
-import os
-import glob
-import json
-import shutil  # see line 96
-import psycopg
-import pandas as pd
+from concurrent.futures import ProcessPoolExecutor, as_completed
 from itertools import combinations
+import pandas as pd
+import psycopg
+import shutil  # see line 90
+import yaml
+import json
+import glob
+import os
 
 
-# Configurations
-DB_HOST = "localhost"
-DB_PORT = 5432
-DB_NAME = "PublicationCorpus"
-DB_USER = "Enter Your User"
-DB_PASSWORD = "Enter Your Password"
-YEAR = "2022"
-DOMAINS = ["Political_Science", "Philosophy", "Economics", "Business", "Psychology", "Mathematics", "Medicine",
-          "Biology", "Computer_Science", "Geology", "Chemistry", "Art", "Sociology", "Engineering", "Geography",
-          "History", "Materials_Science", "Physics", "Environmental_Science"]
+config_path = os.path.join("..", "config.yaml")
+with open(config_path, "rt") as config_file:
+    config = yaml.safe_load(config_file)
 
 
 ###############################################
@@ -35,7 +30,7 @@ def process_json_files(year, fields):
     #------------------------------------------
     # Define the folder path and retrieve JSON files
     folder_path = f"./json_files/{year}/"
-    json_files = glob.glob(os.path.join(folder_path, '**', '*.json'), recursive=True)
+    json_files = glob.glob(os.path.join(folder_path, "**", "*.json"), recursive=True)
 
     # Get the total number of files
     len_files = len(json_files)
@@ -45,7 +40,7 @@ def process_json_files(year, fields):
     # Establishes a connection to the PostgreSQL database and ensures the table exists
     #------------------------------------------
     # Connect to PostgreSQL and create table if it doesn't exist
-    with psycopg.connect(f"host={DB_HOST} port={DB_PORT} dbname={DB_NAME} user={DB_USER} password={DB_PASSWORD}") as conn:
+    with psycopg.connect(f"host={config['DB_HOST']} port={config['DB_PORT']} dbname={config['DB_NAME']} user={config['DB_USER']} password={config['DB_PASSWORD']}") as conn:
         with conn.cursor() as cur:
             # Create the concept_pairs table if it does not exist
             cur.execute(f"""
@@ -99,4 +94,15 @@ def process_json_files(year, fields):
 
 
 if __name__ == "__main__":
-    process_json_files(YEAR, DOMAINS)
+    # choose workers: use explicit config WORKERS if a positive int, otherwise use cpu_count()-1 (min 1)
+    max_workers = config["WORKERS"]
+    years = list(range(config["START_YEAR"], config["END_YEAR"] + 1))
+    with ProcessPoolExecutor(max_workers=max_workers) as executor:
+        futures = {executor.submit(process_json_files, year, config["DOMAINS"]): year for year in years}
+        for fut in as_completed(futures):
+            year = futures[fut]
+            try:
+                fut.result()
+                print(f"Year {year} finished")
+            except Exception as e:
+                print(f"Year {year} failed: {e}")

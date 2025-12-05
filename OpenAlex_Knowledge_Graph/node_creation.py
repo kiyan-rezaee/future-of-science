@@ -1,6 +1,6 @@
-import os
-import csv
 import pandas as pd
+import csv
+import os
 
 
 os.makedirs("./nodes", exist_ok=True)

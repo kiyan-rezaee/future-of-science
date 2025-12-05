@@ -12,19 +12,13 @@ It provides the code and artifacts needed to reproduce the FOS benchmark, run ev
 ## Quick Start
 1. Clone this repository.
 2. Install dependencies (`pip install -r requirements.txt`).
-3. Use the scripts in [FOS_Benchmark](https://github.com/kiyan-rezaee/future-of-science/blob/main/FOS_Benchmark) to generate the dataset and benchmark splits.
-4. Use the [Experiments](https://github.com/kiyan-rezaee/future-of-science/blob/main/Experiments) directory to train and evaluate and reproduce baseline results.
-
-## Reproduce the Benchmark
-To reproduce the dataset and benchmark used in the paper, see: [FOS_Benchmark](https://github.com/kiyan-rezaee/future-of-science/blob/main/FOS_Benchmark)
-
-## Train and Evaluate Models
-To run evaluations on the provided baselines or on your own model, see: [Experiments](https://github.com/kiyan-rezaee/future-of-science/blob/main/Experiments)
+3. Edit [`config.yaml`](https://github.com/kiyan-rezaee/future-of-science/blob/main/config.yaml).
+4. Use the scripts in [FOS_Benchmark](https://github.com/kiyan-rezaee/future-of-science/blob/main/FOS_Benchmark) to generate the dataset and benchmark splits.
+5. Use the [Experiments](https://github.com/kiyan-rezaee/future-of-science/blob/main/Experiments) directory to train and evaluate and reproduce baseline results.
 
 ## TODO
 - Add ablation and discussion artifacts
 - Test the consistency of codes after the refactor
-- Enable a global configuration file to centralize settings
 - Provide CLI tools (argparse) for common workflows
 - Add progress bars using tqdm for long-running operations
 

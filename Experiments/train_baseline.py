@@ -23,20 +23,19 @@ import logging
 import random
 import shutil
 import json
+import yaml
 import time
 import os
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 
 
-# Configurations
-MODEL = "DyGFormer"  # options = ["TGAT", "JODIE", "DyRep", "GraphMixer", "DyGFormer"]
-DOMAINS = ["Political_Science", "Philosophy", "Economics", "Business", "Psychology", "Mathematics", "Medicine",
-           "Biology", "Computer_Science", "Geology", "Chemistry", "Art", "Sociology", "Engineering", "Geography",
-           "History", "Materials_Science", "Physics", "Environmental_Science"]
+config_path = os.path.join("..", "config.yaml")
+with open(config_path, "rt") as config_file:
+    config = yaml.safe_load(config_file)
 
 
-node_embeddings_dir = os.path.join("..", "FOS_Benchmark", "node_embeddings", "_".join(DOMAINS))
-edges_dir = os.path.join("..", "FOS_Benchmark", "edges", "_".join(DOMAINS))
+node_embeddings_dir = os.path.join("..", "FOS_Benchmark", "node_embeddings", "_".join(config["DOMAINS"]))
+edges_dir = os.path.join("..", "FOS_Benchmark", "edges", "_".join(config["DOMAINS"]))
 
 nodes = pd.read_pickle(os.path.join(node_embeddings_dir, "full_features.pkl"))
 edges = pd.read_csv(os.path.join(edges_dir, "all_edges.csv"), header=None, names=["src", "dst", "ts"])
@@ -791,4 +790,4 @@ def run_model(model_name):
 
 
 if __name__ == "__main__":
-    run_model(model_name=MODEL)
+    run_model(model_name=config["MODEL"])

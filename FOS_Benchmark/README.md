@@ -7,21 +7,17 @@ A reproducible pipeline to build graph edges and node features for the FOS bench
 
 ## Step 1 — Preparing edges
 
-1. Open the `edge_creation.py` script and configure database connection, historical time span (start & end years), and included domains.
+1. Open [`config.yaml`](https://github.com/kiyan-rezaee/future-of-science/blob/main/config.yaml) and configure database connection, historical time span (start & end years), and included domains.
 
 2. Run `edge_creation.py`.
 
 ## Step 2 — Preparing node features
 
-1. Open the `node_metadata_collection.py` script and edit the global `DOMAINS` variable to match the domains you want to include.
-
-2. Run `node_metadata_collection.py`.
-
-3. Open the `node_feature_creation.py` script and edit the global `DOMAINS` variable to match the domains you want to include.
+1. Run `node_metadata_collection.py`.
 
 2. Run `node_feature_creation.py`.
 
 ## Notes
 
-- Keep a consistent `DOMAINS` list across scripts to avoid mismatches.
+- Keep a consistent `config.yaml` across scripts to avoid mismatches.
 - Use a small list of domains for tractability.

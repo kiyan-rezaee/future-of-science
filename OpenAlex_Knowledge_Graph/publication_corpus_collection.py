@@ -1,9 +1,10 @@
-import os
-import json
-import requests as rq
-from time  import sleep
-from threading import Thread
 from datetime import datetime
+from threading import Thread
+from time  import sleep
+import requests as rq
+import json
+import yaml
+import os
 
 
 ###############################################
@@ -109,13 +110,9 @@ def get_data(year, cursor):
 # Outputs       : Starts threads to fetch and save data for a range of years
 ###############################################
 def main():
-    #------------------------------------------
-    # Block to Set Year Range
-    # Defines the range of years for which data is fetched
-    #------------------------------------------
-    # Define the start and end year for data fetching
-    start_year = 1827
-    end_year = 2025
+    config_path = os.path.join("..", "config.yaml")
+    with open(config_path, "rt") as config_file:
+        config = yaml.safe_load(config_file)
 
     #------------------------------------------
     # Block to Initialize Threads
@@ -128,7 +125,7 @@ def main():
     os.makedirs("./json_files", exist_ok=True)
 
     # Define the range of years to process
-    years = list(range(start_year, end_year + 1))
+    years = list(range(config["START_YEAR"], config["END_YEAR"] + 1))
 
     # Dictionary to store cursors for each year
     cursors = {year: "*" for year in years}

@@ -1,18 +1,18 @@
-import os
-import json
-import numpy as np
-import pandas as pd
 from sentence_transformers import SentenceTransformer
+import pandas as pd
+import numpy as np
+import json
+import yaml
+import os
 
 
-DOMAINS = ["Political_Science", "Philosophy", "Economics", "Business", "Psychology", "Mathematics", "Medicine",
-          "Biology", "Computer_Science", "Geology", "Chemistry", "Art", "Sociology", "Engineering", "Geography",
-          "History", "Materials_Science", "Physics", "Environmental_Science"]
+config_path = os.path.join("..", "config.yaml")
+with open(config_path, "rt") as config_file:
+	config = yaml.safe_load(config_file)
 
-
-nodes_dir = "../OpenAlex_Knowledge_Graph/nodes/"
+nodes_dir = os.path.join("..", "OpenAlex_Knowledge_Graph", "nodes")
 nodes = set()
-for field in DOMAINS:
+for field in config["DOMAINS"]:
     df = pd.read_csv(nodes_dir + field + ".csv", header=None)
     nodes |= set(df.iloc[:, 0])
 
@@ -75,9 +75,9 @@ def encode_concept(concept):
 
 features = ["none", "desc", "name", "ancestor", "related", "level"]
 dfs = {feature: pd.DataFrame(columns=['node_id', 'embeddings']) for feature in features}
-out_dir = os.path.join('node_embeddings', "_".join(DOMAINS))
+out_dir = os.path.join('node_embeddings', "_".join(config["DOMAINS"]))
 os.makedirs(out_dir, exist_ok=True)
-data_dir = os.path.join('node_data', "_".join(DOMAINS))
+data_dir = os.path.join('node_data', "_".join(config["DOMAINS"]))
 if not os.path.isdir(data_dir):
     print(f"node data directory not found: {data_dir}")
 else:

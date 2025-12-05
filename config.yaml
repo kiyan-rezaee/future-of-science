@@ -1,0 +1,38 @@
+# It is recommended to include only a small set of domains
+# List of all possible domains:
+  # [Political_Science, Philosophy, Economics, Business, Psychology, Mathematics, Medicine, Biology, Computer_Science, Geology, Chemistry, Art, Sociology, Engineering, Geography, History, Materials_Science, Physics, Environmental_Science]
+DOMAINS:
+  - Art
+  - Business
+
+# Using the full historical span (1827-[current year]) is time- and resource-intensive.
+# You can set your desired historical span here
+START_YEAR: 2000
+END_YEAR: 2025
+
+# model options for training = [TGAT, JODIE, DyRep, GraphMixer, DyGFormer]
+# model options for evaluation = [TGAT, JODIE, DyRep, GraphMixer, DyGFormer, EdgeBank]
+MODEL: DyGFormer
+
+# negative and neighbor sampling strategies are only used for evaluation
+NEGATIVE_SAMPLING_STRATEGIES:
+  - random
+  - historical
+  - inductive
+NEIGHBOR_SAMPLING_STRATEGIES:
+  - uniform
+  - recent'
+  - time_interval_aware
+
+# Database information is optional
+# Only needed for `publication_corpus_creation.py and `edge_creation.py`
+DB_HOST: localhost
+DB_PORT: 5432
+DB_NAME: PublicationCorpus
+DB_USER: Enter Your User
+DB_PASSWORD: Enter Your Password
+
+# Number of workers is optional
+# Only used in `publication_corpus_creation.py`
+# If not set, process_cpu_count() is used by default
+WORKERS: null

@@ -3,14 +3,15 @@ from urllib3.util.retry import Retry
 import pandas as pd
 import requests
 import json
+import yaml
 import math
 import time
 import os
 
 
-DOMAINS = ["Political_Science", "Philosophy", "Economics", "Business", "Psychology", "Mathematics", "Medicine",
-          "Biology", "Computer_Science", "Geology", "Chemistry", "Art", "Sociology", "Engineering", "Geography",
-          "History", "Materials_Science", "Physics", "Environmental_Science"]
+config_path = os.path.join("..", "config.yaml")
+with open(config_path, "rt") as config_file:
+	config = yaml.safe_load(config_file)
 
 
 def create_session():
@@ -116,7 +117,7 @@ def dictionary_entry(main_url):
 
 
 nodes = set()
-for field in DOMAINS:
+for field in config["DOMAINS"]:
 	nodes |= set(pd.read_csv(f"../OpenAlex_Knowledge_Graph/nodes/{field}.csv").values.flatten())
 
 openalex_ids = ["https://openalex.org/" + node.lower() for node in nodes]
@@ -125,7 +126,7 @@ chunk_size = math.ceil(len(openalex_ids) / 10)
 
 chunks = [openalex_ids[i:i + chunk_size] for i in range(0, len(openalex_ids), chunk_size)]
 
-out_dir = os.path.join('node_data', "_".join(DOMAINS))
+out_dir = os.path.join('node_data', "_".join(config["DOMAINS"]))
 os.makedirs(out_dir, exist_ok=True)
 
 for idx, chunk in enumerate(chunks, start=1):

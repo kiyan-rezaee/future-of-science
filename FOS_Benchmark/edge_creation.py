@@ -1,29 +1,21 @@
 import pandas as pd
 import psycopg
+import yaml
 import os
 
 
-# Configurations
-DB_HOST = "localhost"
-DB_PORT = 5432
-DB_NAME = "PublicationCorpus"
-DB_USER = "Enter Your User"
-DB_PASSWORD = "Enter Your Password"
-START_YEAR = 1827
-END_YEAR = 2025
-DOMAINS = ["Political_Science", "Philosophy", "Economics", "Business", "Psychology", "Mathematics", "Medicine",
-          "Biology", "Computer_Science", "Geology", "Chemistry", "Art", "Sociology", "Engineering", "Geography",
-          "History", "Materials_Science", "Physics", "Environmental_Science"]
+config_path = os.path.join("..", "config.yaml")
+with open(config_path, "rt") as config_file:
+	config = yaml.safe_load(config_file)
 
-
-out_dir = os.path.join("./edges", "_".join(DOMAINS))
+out_dir = os.path.join("./edges", "_".join(config["DOMAINS"]))
 os.makedirs(out_dir, exist_ok=True)
 
 try:
-	with psycopg.connect(host=DB_HOST, port=DB_PORT, dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD) as conn:
+	with psycopg.connect(host=config["DB_HOST"], port=config["DB_PORT"], dbname=config["DB_NAME"], user=config["DB_USER"], password=config["DB_PASSWORD"]) as conn:
 		with conn.cursor() as cur:
-			for year in range(START_YEAR, END_YEAR + 1):
-				table = f'{"_".join(DOMAINS)}_{year}_concept_pairs'
+			for year in range(config["START_YEAR"], config["END_YEAR"] + 1):
+				table = f'{"_".join(config["DOMAINS"])}_{year}_concept_pairs'
 				file_path = os.path.join(out_dir, f"{year}.csv")
 				query = f"COPY {table} TO '{file_path}' WITH (FORMAT csv);"
 				cur.execute(query)
@@ -34,7 +26,7 @@ finally:
 print("Combining all yearly edge files into a single file...")
 
 edges_list = []
-for year in range(START_YEAR, END_YEAR+1):
+for year in range(config["START_YEAR"], config["END_YEAR"]+1):
     edges = pd.read_csv(os.path.join(out_dir, f"{year}.csv"), header=None)
     edges_list.append(edges)
 edges = pd.concat(edges_list)
