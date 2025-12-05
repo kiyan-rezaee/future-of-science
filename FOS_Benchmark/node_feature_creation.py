@@ -74,7 +74,7 @@ def encode_concept(concept):
 
 
 features = ["none", "desc", "name", "ancestor", "related", "level"]
-df = {feature: pd.DataFrame(columns=['node_id', 'embeddings']) for feature in features}
+dfs = {feature: pd.DataFrame(columns=['node_id', 'embeddings']) for feature in features}
 out_dir = os.path.join('node_embeddings', "_".join(DOMAINS))
 os.makedirs(out_dir, exist_ok=True)
 data_dir = os.path.join('node_data', "_".join(DOMAINS))
@@ -84,22 +84,22 @@ else:
     for filename in sorted(os.listdir(data_dir)):
         if not filename.startswith("node_data_part_") or not filename.endswith(".json"):
             continue
-        part = filename[len("node_data_part_"):-len(".json")]
         filepath = os.path.join(data_dir, filename)
         with open(filepath, "r") as f:
             data = json.load(f)
         data = [item for item in data if item["id"].split("/")[-1] in nodes]
+        part = filename[len("node_data_part_"):-len(".json")]
         print(f"Part {part}")
         for concept in data:
             combined = encode_concept(concept)
             for feature in features:
                 new_row = pd.Series({'node_id': concept['id'].split("/")[-1], 'embeddings': combined[feature]})
-                df[feature] = pd.concat([df[feature], new_row.to_frame().T], ignore_index=True)
+                dfs[feature] = pd.concat([dfs[feature], new_row.to_frame().T], ignore_index=True)
     for feature in features:
-        df[feature].reset_index(drop=True, inplace=True)
+        dfs[feature].reset_index(drop=True, inplace=True)
         if feature == "none":
-            df[feature].to_pickle(os.path.join(out_dir, f'full_features.pkl'))
+            dfs[feature].to_pickle(os.path.join(out_dir, f'full_features.pkl'))
         else:
-            df[feature].to_pickle(os.path.join(out_dir, f'features_without_{feature}.pkl'))
+            dfs[feature].to_pickle(os.path.join(out_dir, f'features_without_{feature}.pkl'))
 
 print("Node feature creation completed.")

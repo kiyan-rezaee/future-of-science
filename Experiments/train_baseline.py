@@ -39,7 +39,7 @@ node_embeddings_dir = os.path.join("..", "FOS_Benchmark", "node_embeddings", "_"
 edges_dir = os.path.join("..", "FOS_Benchmark", "edges", "_".join(DOMAINS))
 
 nodes = pd.read_pickle(os.path.join(node_embeddings_dir, "full_features.pkl"))
-edges = pd.read_csv(os.path.join(edges_dir, "all_edges.csv"))
+edges = pd.read_csv(os.path.join(edges_dir, "all_edges.csv"), header=None, names=["src", "dst", "ts"])
 
 assert np.all(np.diff(edges['ts']) >= 0), "Edges timestamps are not sorted!"
 print("edges are sorted, min ts:",
