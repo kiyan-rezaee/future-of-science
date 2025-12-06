@@ -13,11 +13,11 @@ It provides the code and artifacts needed to reproduce the FOS benchmark, run ev
 1. Clone this repository.
 2. Install dependencies (`pip install -r requirements.txt`).
 3. Edit [`config.yaml`](https://github.com/kiyan-rezaee/future-of-science/blob/main/config.yaml).
-4. Use the scripts in [FOS_Benchmark](https://github.com/kiyan-rezaee/future-of-science/blob/main/FOS_Benchmark) to generate the dataset and benchmark splits.
+4. Use the scripts in [FOS_Benchmark](https://github.com/kiyan-rezaee/future-of-science/blob/main/FOS_Benchmark) to generate the dataset and benchmark. Or download our pre-built benchmark at [our HuggingFace dataset](https://huggingface.co/datasets/Morteza24/future-of-science) and place the `Art_Business/` directory in `./FOS_Benchmark/`.
 5. Use the [Experiments](https://github.com/kiyan-rezaee/future-of-science/blob/main/Experiments) directory to train and evaluate and reproduce baseline results.
 
 ## TODO
-- Add ablation and discussion artifacts
+- Add discussion artifacts
 - Test the consistency of codes after the refactor
 - Provide CLI tools (argparse) for common workflows
 - Add progress bars using tqdm for long-running operations
