@@ -37,7 +37,12 @@ with open(config_path, "rt") as config_file:
 node_embeddings_dir = os.path.join("..", "FOS_Benchmark", "_".join(config["DOMAINS"]), "node_embeddings")
 edges_dir = os.path.join("..", "FOS_Benchmark", "_".join(config["DOMAINS"]), "edges")
 
-nodes = pd.read_pickle(os.path.join(node_embeddings_dir, "full_features.pkl"))
+omit_feature = config["ABLATION_STUDY"]["OMIT_NODE_FEATURE"]
+if omit_feature:
+    nodes = pd.read_pickle(os.path.join(node_embeddings_dir, f"features_without_{config['ABLATION_STUDY']['OMIT_NODE_FEATURE']}.pkl"))
+else:
+    nodes = pd.read_pickle(os.path.join(node_embeddings_dir, "full_features.pkl"))
+
 edges = pd.read_csv(os.path.join(edges_dir, "all_edges.csv"), header=None, names=["src", "dst", "ts"])
 
 assert np.all(np.diff(edges['ts']) >= 0), "Edges timestamps are not sorted!"
