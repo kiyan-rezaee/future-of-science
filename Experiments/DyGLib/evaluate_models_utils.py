@@ -8,6 +8,7 @@ import time
 import argparse
 import os
 import json
+import pandas as pd
 
 from DyGLib.models.EdgeBank import edge_bank_link_prediction
 from DyGLib.utils.metrics import get_link_prediction_metrics, get_node_classification_metrics
@@ -32,6 +33,7 @@ def evaluate_model_link_prediction(model_name: str, model: nn.Module, neighbor_s
     :param time_gap: int, time gap for neighbors to compute node features
     :return:
     """
+    
     # Ensures the random sampler uses a fixed seed for evaluation (i.e. we always sample the same negatives for validation / test set)
     assert evaluate_neg_edge_sampler.seed is not None
     evaluate_neg_edge_sampler.reset_random_state()
@@ -72,6 +74,8 @@ def evaluate_model_link_prediction(model_name: str, model: nn.Module, neighbor_s
                                                                       dst_node_ids=batch_dst_node_ids,
                                                                       node_interact_times=batch_node_interact_times,
                                                                       num_neighbors=num_neighbors)
+                batch_src_node_embeddings = torch.nan_to_num(batch_src_node_embeddings, nan=0.0)
+                batch_dst_node_embeddings = torch.nan_to_num(batch_dst_node_embeddings, nan=0.0)
 
                 # get temporal embedding of negative source and negative destination nodes
                 # two Tensors, with shape (batch_size, node_feat_dim)
@@ -80,6 +84,9 @@ def evaluate_model_link_prediction(model_name: str, model: nn.Module, neighbor_s
                                                                       dst_node_ids=batch_neg_dst_node_ids,
                                                                       node_interact_times=batch_node_interact_times,
                                                                       num_neighbors=num_neighbors)
+                batch_neg_src_node_embeddings = torch.nan_to_num(batch_neg_src_node_embeddings, nan=0.0)
+                batch_neg_dst_node_embeddings = torch.nan_to_num(batch_neg_dst_node_embeddings, nan=0.0)
+                
             elif model_name in ['JODIE', 'DyRep', 'TGN']:
                 # note that negative nodes do not change the memories while the positive nodes change the memories,
                 # we need to first compute the embeddings of negative nodes for memory-based models
@@ -142,6 +149,11 @@ def evaluate_model_link_prediction(model_name: str, model: nn.Module, neighbor_s
 
             predicts = torch.cat([positive_probabilities, negative_probabilities], dim=0)
             labels = torch.cat([torch.ones_like(positive_probabilities), torch.zeros_like(negative_probabilities)], dim=0)
+            
+            # print(batch_src_node_ids.shape, batch_src_node_ids.shape, predicts.shape, labels.shape)
+            
+            df = pd.DataFrame({ 'src_node_id': batch_src_node_ids, 'dst_node_id': batch_dst_node_ids, 'predict': positive_probabilities.numpy()}) 
+            df.to_csv(f"predictions/{batch_idx}_prediction_output.csv")
 
             loss = loss_func(input=predicts, target=labels)
 
@@ -376,7 +388,7 @@ def evaluate_edge_bank_link_prediction(args: argparse.Namespace, train_data: Dat
         }
         result_json = json.dumps(result_json, indent=4)
 
-        save_result_folder = f"./saved_results/{args.model_name}/{args.dataset_name}"
+        save_result_folder = f"./saved_results/{args.model_name}/{args.dataset_name}/{args.negative_sample_strategy}/{args.sample_neighbor_strategy}"
         os.makedirs(save_result_folder, exist_ok=True)
         save_result_path = os.path.join(save_result_folder, f"{args.save_result_name}.json")
         with open(save_result_path, 'w') as file:

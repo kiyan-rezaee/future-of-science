@@ -83,4 +83,4 @@ class EarlyStopping(object):
         self.logger.info(f"load model {self.save_model_path}")
         model.load_state_dict(torch.load(self.save_model_path, map_location=map_location))
         if self.model_name in ['JODIE', 'DyRep', 'TGN']:
-            model[0].memory_bank.node_raw_messages = torch.load(self.save_model_nonparametric_data_path, map_location=map_location)
+            model[0].memory_bank.node_raw_messages = torch.load(self.save_model_nonparametric_data_path, map_location=map_location, weights_only=False)

@@ -48,6 +48,8 @@ print("nodes.shape:", nodes.shape)
 
 node_list = nodes["node_id"].to_list()
 id2idx = {nid: i for i, nid in enumerate(node_list)}
+idx2id = {i: nid for i, nid in enumerate(node_list)}
+pd.DataFrame(list(idx2id.items())).to_csv("predictions/node_id_mapping.csv")
 edges["src"] = edges["src"].map(id2idx)
 edges["dst"] = edges["dst"].map(id2idx)
 
@@ -155,6 +157,9 @@ assert np.all(np.diff(full_df['ts']) >=
               0), "full_df timestamps are not sorted!"
 
 full_df["idx"] = full_df.index
+
+os.makedirs('./predictions', exist_ok=True)
+full_df.to_csv("./predictions/full_data.csv")
 
 edge_raw_features = np.zeros((len(full_df)+1, 1))
 
