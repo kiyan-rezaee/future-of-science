@@ -15,6 +15,8 @@ It provides the code and artifacts needed to reproduce the FOS benchmark, run ev
 3. Edit [`config.yaml`](https://github.com/kiyan-rezaee/future-of-science/blob/main/config.yaml).
 4. Use the scripts in [FOS_Benchmark](https://github.com/kiyan-rezaee/future-of-science/blob/main/FOS_Benchmark) to generate the dataset and benchmark. Or download our pre-built benchmark at [our HuggingFace dataset](https://huggingface.co/datasets/Morteza24/future-of-science) and place the `Art_Business/` directory in `./FOS_Benchmark/`.
 5. Use the [Experiments](https://github.com/kiyan-rezaee/future-of-science/blob/main/Experiments) directory to train and evaluate and reproduce baseline results. And to perform ablation studies and analyse the real-world applications of FOS.
+6. Use the notebook in [TEA_TET_Diagnostics](https://github.com/kiyan-rezaee/future-of-science/blob/main/TEA_TET_Diagnostics) to check out the Temporal Edge Appearance and Temporal Edge Traffic Plots along with three metrics (Novelty, Recurrence, Surprise) that enable you to compare you FOS benchmark with other link-prediction dataset.
+7. The notebook in [FOS_Statistics](https://github.com/kiyan-rezaee/future-of-science/blob/main/FOS_Statistics) presents descriptive statistics from node-, edge-, graph-, and temporal-pattern perspectives of the FOS benchmark, visualizing activity distributions, edge dynamics, and structural evolution across time.
 
 ## TODO
 - Test the consistency of codes after the refactor
