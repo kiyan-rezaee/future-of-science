@@ -21,7 +21,7 @@ NEGATIVE_SAMPLING_STRATEGIES:
   - inductive
 NEIGHBOR_SAMPLING_STRATEGIES:
   - uniform
-  - recent'
+  - recent
   - time_interval_aware
 
 ABLATION_STUDY:
