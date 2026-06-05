@@ -5,6 +5,8 @@ We construct the FOS dataset using two primary artifacts from the OpenAlex knowl
 #### 1. The Concepts Taxonomy:
 This is the `concepts_taxonomy.csv` file at the current directory. For reference, you can find the link to the original file on the OpenAlex website using [this link](https://docs.openalex.org/api-entities/concepts).
 
+> **_UPDATE:_** OpenAlex has deprecated the Concepts system (replaced by their newer Topics classification) and removed the direct link to the taxonomy spreadsheet from their documentation. You can find the original spreadsheet that was mentioned in their website [here](https://docs.google.com/spreadsheets/d/1LBFHjPt4rj_9r0t0TTAlT68NwOtNH8Z21lBMsJDMoZg/). Obviously, you can always use the copy included in this repository.
+
 #### 2. The Publication Corpus:
 Building the publication corpus consists of three steps:
 
